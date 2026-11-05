@@ -1,0 +1,72 @@
+# Hardware identifiers copied from the read-only capture project on 2026-11-05.
+# Verify TCP, workspace and direction mappings on the actual setup before enabling motion.
+mode: real
+dataset:
+  repo_id: local/ur5_dagger_rollouts
+  root: ur5_dagger/output/real_round1
+  fps: 30
+  task: Pick up the connector and place it inside the carton
+  episodes: 20
+  episode_seconds: 300
+  image_writer_threads: 6
+robot:
+  ip: 192.168.100.100
+  controller: cb3
+  control_hz: 125
+  ur_cap_port: 50002
+  motion_enabled: false
+  tcp_configured: false
+  tcp_offset: [0, 0, 0, 0, 0, 0]
+  workspace_configured: false
+  workspace_min: [-1.0, -1.0, -0.5]
+  workspace_max: [1.0, 1.0, 0.8]
+  lookahead_time: 0.1
+  gain: 300
+  command_timeout_s: 0.15
+  watchdog_hz: 10
+teleop:
+  device_index: 0
+  deadzone: 0.12
+  translation_axes: [0, 1, 2]
+  rotation_axes: [3, 4, 5]
+  translation_signs: [1, 1, 1]
+  rotation_signs: [1, 1, 1]
+  frame: base
+  speed_toggle_button: 1
+  low_speed_ratio: 0.0625
+  high_speed_ratio: 0.125
+  stale_timeout_s: 0.15
+gripper:
+  initial_grasp: 0
+  toggle_button: 0
+  feedback_source: plugin
+  feedback_plugin: hardware.rg2:RTDEGripper
+  actuation_enabled: true
+  feedback_kwargs:
+    robot_ip: 192.168.100.100
+    port: 30004
+    max_width_mm: 110.0
+    open_width_mm: 110.0
+    close_width_mm: 0.0
+    force_n: 20.0
+    poll_hz: 50.0
+    socket_timeout_s: 0.2
+    feedback_timeout_s: 0.25
+    motion_timeout_s: 5.0
+cameras:
+  - {name: agentview_1, role: global, serial: '039222250102', width: 640, height: 480, fps: 30}
+  - {name: agentview_2, role: global, serial: '043422252060', width: 640, height: 480, fps: 30}
+  - {name: eye_in_hand, role: eye_in_hand, serial: '419522072783', width: 640, height: 480, fps: 30}
+dagger:
+  start_mode: human
+  takeover_on_motion: true
+  takeover_threshold: 0.25
+  max_translation_speed: 0.05
+  max_rotation_speed: 0.15
+  video: true
+  policy:
+    host: 127.0.0.1
+    port: 8000
+    execution_horizon: 5
+    timeout_s: 5.0
+    max_result_age_s: 0.5

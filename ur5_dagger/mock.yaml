@@ -1,0 +1,36 @@
+mode: mock
+dataset:
+  repo_id: local/ur5_dagger_rollouts
+  root: ur5_dagger/output/mock_round1
+  fps: 30
+  task: Pick up the connector and place it inside the carton
+  episodes: 2
+  episode_seconds: 6
+  image_writer_threads: 3
+robot:
+  control_hz: 125
+  mock_initial_pose: [0.30, 0.0, 0.30, 0.0, 3.141592653589793, 0.0]
+teleop:
+  low_speed_ratio: 0.0625
+  high_speed_ratio: 0.125
+  frame: base
+gripper:
+  feedback_source: mock
+  initial_grasp: 0
+  toggle_button: 0
+  mock_open_width_m: 0.11
+cameras:
+  - {name: agentview_1, role: global, serial: MOCK1, width: 96, height: 72, fps: 60}
+  - {name: agentview_2, role: global, serial: MOCK2, width: 96, height: 72, fps: 60}
+  - {name: eye_in_hand, role: eye_in_hand, serial: MOCK3, width: 96, height: 72, fps: 60}
+dagger:
+  start_mode: human
+  takeover_on_motion: true
+  takeover_threshold: 0.25
+  max_translation_speed: 0.05
+  max_rotation_speed: 0.15
+  video: true
+  policy:
+    execution_horizon: 5
+    mock_delay_s: 0.05
+    max_result_age_s: 1.0
